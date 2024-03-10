@@ -29,3 +29,12 @@ export function addToCart(id){
         })
     }
 }
+
+export function deleteFromCart(id){
+    cart.forEach((value,index)=>{
+        if(id===value.id){
+            cart.splice(index,1);
+        }
+    })
+    console.log(cart);
+}

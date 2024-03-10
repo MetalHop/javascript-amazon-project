@@ -1,9 +1,9 @@
-import { cart } from "../data/cart.js";
+import { cart,deleteFromCart } from "../data/cart.js";
 let input = ``;
 let total=0;
 
 cart.forEach((value)=>{
-    input+=`<div class="cart-item-container">
+    input+=`<div class="cart-item-container ${value.id}">
     <div class="delivery-date">
       Delivery date: Tuesday, June 21
     </div>
@@ -17,7 +17,7 @@ cart.forEach((value)=>{
           ${value.name}
         </div>
         <div class="product-price">
-        ${value.priceCents/100}
+        ${(value.priceCents/100).toFixed(2)}
         </div>
         <div class="product-quantity">
           <span>
@@ -26,7 +26,7 @@ cart.forEach((value)=>{
           <span class="update-quantity-link link-primary">
             Update
           </span>
-          <span class="delete-quantity-link link-primary">
+          <span class="delete-quantity-link link-primary" data-delete-item="${value.id}">
             Delete
           </span>
         </div>
@@ -39,7 +39,7 @@ cart.forEach((value)=>{
         <div class="delivery-option">
           <input type="radio" checked
             class="delivery-option-input"
-            name="delivery-option-1">
+            name="${value.id}">
           <div>
             <div class="delivery-option-date">
               Tuesday, June 21
@@ -52,7 +52,7 @@ cart.forEach((value)=>{
         <div class="delivery-option">
           <input type="radio"
             class="delivery-option-input"
-            name="delivery-option-1">
+            name="${value.id}">
           <div>
             <div class="delivery-option-date">
               Wednesday, June 15
@@ -65,7 +65,7 @@ cart.forEach((value)=>{
         <div class="delivery-option">
           <input type="radio"
             class="delivery-option-input"
-            name="delivery-option-1">
+            name="${value.id}">
           <div>
             <div class="delivery-option-date">
               Monday, June 13
@@ -117,3 +117,10 @@ Order Summary
 Place your order
 </button>
 </div>`;
+
+document.querySelectorAll('.delete-quantity-link').forEach((button)=>{
+    button.addEventListener('click',()=>{
+        deleteFromCart(button.dataset.deleteItem);
+        document.getElementsByClassName(button.dataset.deleteItem)[0].remove();
+    });
+})
