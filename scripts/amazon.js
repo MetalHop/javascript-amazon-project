@@ -2,7 +2,7 @@ import { products } from "../data/products.js";
 import { cart, addToCart} from "../data/cart.js";
 let input = ``;
 updateCartQuant();
-const items= document.getElementsByClassName("products-grid")[0];
+
 products.forEach((value)=>{
     input+= `<div class="product-container">
     <div class="product-image-container">
@@ -52,14 +52,17 @@ products.forEach((value)=>{
     </button>
   </div>`;
 })
+const items= document.getElementsByClassName("products-grid")[0];
 items.innerHTML=input;
 
 
 function updateCartQuant(){
   let cart_quantity=0;
-  cart.forEach((item)=>{
+  if(cart.length!==0){
+    cart.forEach((item)=>{
     cart_quantity+=item.quantity;
-  })
+    })
+  }
   document.querySelector('.cart-quantity').innerHTML=cart_quantity;
 }
 

@@ -1,16 +1,8 @@
-export const cart = [{
-    id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    quantity: 2,
-    image: "images/products/athletic-cotton-socks-6-pairs.jpg",
-    name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
-    priceCents: 1090
-  },{
-    id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-    quantity:1,
-    image: "images/products/intermediate-composite-basketball.jpg",
-    name: "Intermediate Size Basketball",
-    priceCents: 2095
-  }];
+export let cart = JSON.parse(localStorage.getItem('cart'))||[];
+
+function saveCart(){
+    localStorage.setItem('cart',JSON.stringify(cart));
+}
 
 export function addToCart(id){
     let matchid;
@@ -25,9 +17,11 @@ export function addToCart(id){
     else{
         cart.push({
             id,
-            quantity: 1
+            quantity: 1,
         })
     }
+    
+    saveCart();
 }
 
 export function deleteFromCart(id){
@@ -36,5 +30,5 @@ export function deleteFromCart(id){
             cart.splice(index,1);
         }
     })
-    console.log(cart);
+    saveCart();
 }

@@ -1,32 +1,40 @@
 import { cart,deleteFromCart } from "../data/cart.js";
+import {products} from "../data/products.js";
 let input = ``;
 let total=0;
 
 cart.forEach((value)=>{
-    input+=`<div class="cart-item-container ${value.id}">
+    let item;
+    for(let i=0;i<products.length;i++){
+      if(value.id===products[i].id){
+        item=products[i];
+        break;
+      }
+    }
+    input+=`<div class="cart-item-container ${item.id}">
     <div class="delivery-date">
       Delivery date: Tuesday, June 21
     </div>
 
     <div class="cart-item-details-grid">
       <img class="product-image"
-        src="${value.image}">
+        src="${item.image}">
 
       <div class="cart-item-details">
         <div class="product-name">
-          ${value.name}
+          ${item.name}
         </div>
         <div class="product-price">
-        ${(value.priceCents/100).toFixed(2)}
+        ${(item.priceCents/100).toFixed(2)}
         </div>
         <div class="product-quantity">
           <span>
-            Quantity: <span class="quantity-label">2</span>
+            Quantity: <span class="quantity-label">${value.quantity}</span>
           </span>
           <span class="update-quantity-link link-primary">
             Update
           </span>
-          <span class="delete-quantity-link link-primary" data-delete-item="${value.id}">
+          <span class="delete-quantity-link link-primary" data-delete-item="${item.id}">
             Delete
           </span>
         </div>
@@ -39,7 +47,7 @@ cart.forEach((value)=>{
         <div class="delivery-option">
           <input type="radio" checked
             class="delivery-option-input"
-            name="${value.id}">
+            name="${item.id}">
           <div>
             <div class="delivery-option-date">
               Tuesday, June 21
@@ -52,7 +60,7 @@ cart.forEach((value)=>{
         <div class="delivery-option">
           <input type="radio"
             class="delivery-option-input"
-            name="${value.id}">
+            name="${item.id}">
           <div>
             <div class="delivery-option-date">
               Wednesday, June 15
@@ -65,7 +73,7 @@ cart.forEach((value)=>{
         <div class="delivery-option">
           <input type="radio"
             class="delivery-option-input"
-            name="${value.id}">
+            name="${item.id}">
           <div>
             <div class="delivery-option-date">
               Monday, June 13
@@ -81,9 +89,8 @@ cart.forEach((value)=>{
     total+=(value.priceCents*value.quantity);
 })
 
-let shipp = total+499;
 document.getElementsByClassName('order-summary')[0].innerHTML=input;
-
+let shipp = total+499;
 document.getElementsByClassName('payment-summary')[0].innerHTML=`<div class="payment-summary-title">
 Order Summary
 </div>
